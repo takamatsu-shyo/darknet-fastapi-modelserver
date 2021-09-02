@@ -21,8 +21,8 @@ img_encoded = cv2.imencode('.jpg', img)[1]
 img_bytes = img_encoded.tobytes()  # bytes class
 img_hex = img_bytes.hex()
 
-r = requests.post('http://127.0.0.1:8000/predict/', json={"img": img_hex, "dim": (
-    416, 416, 3), "model_id": 0, "save_predictions_on_server": True})
+r = requests.post('http://127.0.0.1:8006/predict/', json={"img": img_hex, "dim": (
+    416, 416, 3), "model_id": 0, "save_predictions_on_server": False})
 t2 = time.process_time()
 
 print("Took ", round(t2-t1, 3), "sec")
