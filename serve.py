@@ -80,7 +80,7 @@ def is_live():
 @app.get("/models/{model_id}")
 def get_model_summary(model_id: int):
     try:
-        return open(app.modelserver.cfg[model_id]).readlines()
+        return (app.modelserver.cfg[model_id], models[model_id]['weights'])
     except:
         return "model not found!"
 
