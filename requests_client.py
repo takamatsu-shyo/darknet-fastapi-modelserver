@@ -8,7 +8,6 @@ import io
 from pstats import SortKey
 import time
 
-
 mode='hex'
 #mode='base64'
 #mode='noncomp'
@@ -33,7 +32,7 @@ elif mode == 'noncomp':
     r = requests.post('http://127.0.0.1:8006/predict_uncomp/', json={"img": img_hex, "dim": (
         416, 416, 3), "model_id": 0, "save_predictions_on_server": False})
 
-else: # hex is default and first
+else: # hex is default and fast
     img_encoded = cv2.imencode('.jpg', img)[1]
     img_bytes = img_encoded.tobytes()  # bytes class
     img_hex = img_bytes.hex()
