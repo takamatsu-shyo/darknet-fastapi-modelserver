@@ -96,3 +96,34 @@ def predict(img_model: Image):
         img_model.model_id, img_np, img_model.dim, img_model.save_predictions_on_server)
 
     return response
+
+@app.post("/predict_b64")
+def predict_b64(img_model: Image):
+    #print(img_model.img[:10])
+    #print(type(img_model.img))
+    #print(len(img_model.img))
+
+    import base64
+    r = base64.decodebytes(img_model.img)
+    #print(r[:10])
+
+    nparr = np.frombuffer(r, np.byte)
+    #print(nparr)
+
+    img_np = cv2.imdecode(nparr, cv2.IMREAD_UNCHANGED)
+    response = app.modelserver.predict(
+        img_model.model_id, img_np, img_model.dim, img_model.save_predictions_on_server)
+
+    return response
+
+@app.post("/predict_uncomp")
+def predict_b64(img_model: Image):
+    img_bytes = bytes.fromhex(img_model.img.decode())  # hex to bytes
+    nparr = np.frombuffer(img_bytes, np.byte)
+
+    img_np = nparr
+    response = app.modelserver.predict(
+        img_model.model_id, img_np, img_model.dim, img_model.save_predictions_on_server)
+
+    return response
+
