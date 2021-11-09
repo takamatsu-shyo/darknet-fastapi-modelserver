@@ -12,7 +12,7 @@ mode='hex'
 #mode='base64'
 #mode='noncomp'
 
-t1 = time.process_time()
+t1 = time.time()
 img = cv2.resize(cv2.imread('images/frame4.jpg'), (416, 416))
 
 if mode == 'base64':
@@ -34,13 +34,14 @@ elif mode == 'noncomp':
 
 else: # hex is default and fast
     img_encoded = cv2.imencode('.jpg', img)[1]
+    print('len jpg', len(img_encoded))
     img_bytes = img_encoded.tobytes()  # bytes class
     img_hex = img_bytes.hex()
     print('len hex', len(img_hex))
     r = requests.post('http://127.0.0.1:8006/predict/', json={"img": img_hex, "dim": (
         416, 416, 3), "model_id": 0, "save_predictions_on_server": False})
 
-t2 = time.process_time()
+t2 = time.time()
 print("Took ", round(t2-t1, 3), "sec")
 print(r.content)
 
